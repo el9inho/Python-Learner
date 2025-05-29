@@ -46,11 +46,10 @@ def index():
     completed_lessons = [p.lesson_id for p in progress if p.completed]
     
     # Track page visit
-    analytics = LearningAnalytics(
-        session_id=session['session_id'],
-        event_type='page_visit',
-        data={'page': 'home'}
-    )
+    analytics = LearningAnalytics()
+    analytics.session_id = session['session_id']
+    analytics.event_type = 'page_visit'
+    analytics.data = {'page': 'home'}
     db.session.add(analytics)
     db.session.commit()
     
@@ -64,6 +63,9 @@ def lessons():
     if 'session_id' not in session:
         session['session_id'] = str(uuid.uuid4())
     
+    # Ensure user exists
+    user = get_or_create_user(session['session_id'])
+    
     # Get progress for this session
     progress = LessonProgress.query.filter_by(session_id=session['session_id']).all()
     completed_lessons = [p.lesson_id for p in progress if p.completed]
@@ -71,6 +73,16 @@ def lessons():
     return render_template('lessons.html', 
                          lessons=lessons_data['lessons'],
                          completed_lessons=completed_lessons)
+
+@app.route('/dashboard')
+def dashboard():
+    if 'session_id' not in session:
+        session['session_id'] = str(uuid.uuid4())
+    
+    # Ensure user exists
+    user = get_or_create_user(session['session_id'])
+    
+    return render_template('dashboard.html')
 
 @app.route('/lesson/<lesson_id>')
 def lesson(lesson_id):

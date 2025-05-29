@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Learn Python Interactive{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">Learning Dashboard</h1>
+            <p class="lead text-muted">Track your progress and achievements</p>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="row mb-5" id="stats-overview">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="completed-lessons">-</h3>
+                    <p>Lessons Completed</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-primary" id="lesson-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="quiz-score">-</h3>
+                    <p>Average Quiz Score</p>
+                    <small class="text-muted"><span id="quiz-attempts">0</span> attempts</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-info">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="code-executions">-</h3>
+                    <p>Code Executions</p>
+                    <small class="text-muted"><span id="success-rate">0</span>% success rate</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="achievements-count">-</h3>
+                    <p>Achievements</p>
+                    <small class="text-muted">Badges earned</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Achievements Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="dashboard-section">
+                <h4 class="section-title">
+                    <i class="fas fa-medal me-2 text-warning"></i>Achievements
+                </h4>
+                <div id="achievements-container">
+                    <div class="text-center p-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="dashboard-section">
+                <h4 class="section-title">
+                    <i class="fas fa-users me-2 text-info"></i>Community Leaderboard
+                </h4>
+                <div class="leaderboard-tabs mb-3">
+                    <button class="tab-btn active" onclick="showLeaderboard('lessons')">Lessons</button>
+                    <button class="tab-btn" onclick="showLeaderboard('quizzes')">Quizzes</button>
+                    <button class="tab-btn" onclick="showLeaderboard('coding')">Coding</button>
+                </div>
+                <div id="leaderboard-container">
+                    <div class="text-center p-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row">
+        <div class="col-12">
+            <div class="dashboard-section">
+                <h4 class="section-title">
+                    <i class="fas fa-clock me-2 text-secondary"></i>Quick Actions
+                </h4>
+                <div class="quick-actions">
+                    <a href="{{ url_for('lessons') }}" class="action-card">
+                        <i class="fas fa-book"></i>
+                        <h5>Continue Learning</h5>
+                        <p>Pick up where you left off</p>
+                    </a>
+                    <a href="{{ url_for('practice') }}" class="action-card">
+                        <i class="fas fa-terminal"></i>
+                        <h5>Practice Coding</h5>
+                        <p>Test your skills in the code runner</p>
+                    </a>
+                    <div class="action-card" onclick="shareProgress()">
+                        <i class="fas fa-share"></i>
+                        <h5>Share Progress</h5>
+                        <p>Show off your achievements</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentLeaderboardType = 'lessons';
+
+// Load dashboard data when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadUserStats();
+    loadAchievements();
+    loadLeaderboard();
+});
+
+async function loadUserStats() {
+    try {
+        const response = await fetch('/api/user_stats');
+        const data = await response.json();
+        
+        if (response.ok) {
+            updateStatsDisplay(data);
+        } else {
+            console.error('Error loading user stats:', data.error);
+        }
+    } catch (error) {
+        console.error('Error loading user stats:', error);
+    }
+}
+
+function updateStatsDisplay(data) {
+    // Update lesson progress
+    document.getElementById('completed-lessons').textContent = 
+        `${data.progress.completed_lessons}/${data.progress.total_lessons}`;
+    document.getElementById('lesson-progress').style.width = 
+        `${data.progress.completion_percentage}%`;
+    
+    // Update quiz stats
+    document.getElementById('quiz-score').textContent = 
+        data.quiz_performance.average_score + '%';
+    document.getElementById('quiz-attempts').textContent = 
+        data.quiz_performance.total_attempts;
+    
+    // Update coding stats
+    document.getElementById('code-executions').textContent = 
+        data.coding_activity.total_executions;
+    document.getElementById('success-rate').textContent = 
+        data.coding_activity.success_rate;
+}
+
+async function loadAchievements() {
+    try {
+        const response = await fetch('/api/achievements');
+        const data = await response.json();
+        
+        if (response.ok) {
+            updateAchievementsDisplay(data);
+            document.getElementById('achievements-count').textContent = data.total_earned;
+        } else {
+            console.error('Error loading achievements:', data.error);
+        }
+    } catch (error) {
+        console.error('Error loading achievements:', error);
+    }
+}
+
+function updateAchievementsDisplay(data) {
+    const container = document.getElementById('achievements-container');
+    
+    if (data.achievements.length === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted p-4">
+                <i class="fas fa-trophy fa-2x mb-3"></i>
+                <p>Complete lessons and quizzes to earn achievements!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const achievementsHTML = data.achievements.map(achievement => `
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <i class="fas ${achievement.icon}"></i>
+            </div>
+            <div class="achievement-content">
+                <h6>${achievement.title}</h6>
+                <p>${achievement.description}</p>
+            </div>
+            <div class="achievement-badge">
+                <i class="fas fa-check text-success"></i>
+            </div>
+        </div>
+    `).join('');
+    
+    container.innerHTML = achievementsHTML;
+}
+
+async function loadLeaderboard() {
+    try {
+        const response = await fetch('/api/leaderboard');
+        const data = await response.json();
+        
+        if (response.ok) {
+            updateLeaderboardDisplay(data);
+        } else {
+            console.error('Error loading leaderboard:', data.error);
+        }
+    } catch (error) {
+        console.error('Error loading leaderboard:', error);
+    }
+}
+
+function updateLeaderboardDisplay(data) {
+    showLeaderboard(currentLeaderboardType, data);
+}
+
+function showLeaderboard(type, data = null) {
+    currentLeaderboardType = type;
+    
+    // Update tab buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event?.target?.classList.add('active') || 
+        document.querySelector(`.tab-btn:nth-child(${type === 'lessons' ? 1 : type === 'quizzes' ? 2 : 3})`).classList.add('active');
+    
+    if (!data) {
+        loadLeaderboard();
+        return;
+    }
+    
+    const container = document.getElementById('leaderboard-container');
+    let items = [];
+    let title = '';
+    
+    switch (type) {
+        case 'lessons':
+            items = data.lesson_completers;
+            title = 'Lesson Completers';
+            break;
+        case 'quizzes':
+            items = data.quiz_champions;
+            title = 'Quiz Champions';
+            break;
+        case 'coding':
+            items = data.coding_enthusiasts;
+            title = 'Coding Enthusiasts';
+            break;
+    }
+    
+    if (items.length === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted p-4">
+                <p>No data available yet. Be the first!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const leaderboardHTML = items.map((item, index) => {
+        let metric = '';
+        switch (type) {
+            case 'lessons':
+                metric = `${item.completed_lessons} lessons`;
+                break;
+            case 'quizzes':
+                metric = `${item.average_score}% avg`;
+                break;
+            case 'coding':
+                metric = `${item.code_executions} runs`;
+                break;
+        }
+        
+        return `
+            <div class="leaderboard-item">
+                <div class="rank">#${index + 1}</div>
+                <div class="user-info">
+                    <div class="username">${item.user}</div>
+                    <div class="metric">${metric}</div>
+                </div>
+                ${index < 3 ? `<div class="medal"><i class="fas fa-medal text-${index === 0 ? 'warning' : index === 1 ? 'secondary' : 'warning'}"></i></div>` : ''}
+            </div>
+        `;
+    }).join('');
+    
+    container.innerHTML = leaderboardHTML;
+}
+
+function shareProgress() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'My Python Learning Progress',
+            text: 'Check out my progress learning Python programming!',
+            url: window.location.origin
+        });
+    } else {
+        // Fallback: copy to clipboard
+        const url = window.location.origin;
+        navigator.clipboard.writeText(url).then(() => {
+            showNotification('Link copied to clipboard!', 'success');
+        });
+    }
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+</script>
+{% endblock %}

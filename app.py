@@ -35,3 +35,4 @@ with app.app_context():
 
 # Import routes after app creation
 import routes
+import routes_analytics

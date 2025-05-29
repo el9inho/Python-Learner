@@ -768,6 +768,217 @@ body {
     overflow-y: auto;
 }
 
+/* Dashboard styles */
+.stat-card {
+    background: hsl(var(--surface));
+    border-radius: var(--border-radius-lg);
+    border: 1px solid hsl(var(--border));
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--transition);
+    height: 100%;
+}
+
+.stat-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.stat-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: hsl(var(--text));
+}
+
+.stat-content p {
+    color: hsl(var(--text-muted));
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-section {
+    background: hsl(var(--surface));
+    border-radius: var(--border-radius-lg);
+    border: 1px solid hsl(var(--border));
+    padding: 1.5rem;
+    height: 100%;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: hsl(var(--text));
+}
+
+/* Achievement styles */
+.achievement-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--border-radius);
+    margin-bottom: 0.75rem;
+    transition: var(--transition);
+}
+
+.achievement-item:hover {
+    background: hsl(var(--muted) / 0.3);
+}
+
+.achievement-icon {
+    width: 40px;
+    height: 40px;
+    background: hsl(var(--warning) / 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--warning));
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.achievement-content {
+    flex-grow: 1;
+}
+
+.achievement-content h6 {
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+    color: hsl(var(--text));
+}
+
+.achievement-content p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: hsl(var(--text-muted));
+}
+
+.achievement-badge {
+    color: hsl(var(--success));
+    font-size: 1.25rem;
+}
+
+/* Leaderboard styles */
+.leaderboard-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--surface));
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.875rem;
+    color: hsl(var(--text));
+}
+
+.tab-btn:hover {
+    background: hsl(var(--muted) / 0.5);
+}
+
+.tab-btn.active {
+    background: hsl(var(--primary));
+    color: white;
+    border-color: hsl(var(--primary));
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+    background: hsl(var(--surface));
+}
+
+.leaderboard-item .rank {
+    width: 30px;
+    text-align: center;
+    font-weight: 600;
+    color: hsl(var(--text-muted));
+    margin-right: 1rem;
+}
+
+.leaderboard-item .user-info {
+    flex-grow: 1;
+}
+
+.leaderboard-item .username {
+    font-weight: 600;
+    color: hsl(var(--text));
+}
+
+.leaderboard-item .metric {
+    font-size: 0.875rem;
+    color: hsl(var(--text-muted));
+}
+
+.leaderboard-item .medal {
+    font-size: 1.25rem;
+    margin-left: 0.5rem;
+}
+
+/* Quick actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.action-card {
+    background: hsl(var(--surface));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--transition);
+    text-decoration: none;
+    color: hsl(var(--text));
+    cursor: pointer;
+}
+
+.action-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: hsl(var(--primary));
+}
+
+.action-card i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: hsl(var(--primary));
+}
+
+.action-card h5 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.action-card p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: hsl(var(--text-muted));
+}
+
 /* Empty states */
 .empty-state {
     padding: 3rem 2rem;
