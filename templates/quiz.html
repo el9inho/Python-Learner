@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz: {{ lesson.title }} - Learn Python Interactive{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Quiz Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('lessons') }}">Lessons</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('lesson', lesson_id=lesson.id) }}">{{ lesson.title }}</a></li>
+                    <li class="breadcrumb-item active">Quiz</li>
+                </ol>
+            </nav>
+            
+            <div class="quiz-header-card">
+                <h1 class="display-5 fw-bold text-primary mb-3">
+                    <i class="fas fa-question-circle me-3"></i>{{ lesson.quiz.title }}
+                </h1>
+                <p class="lead mb-3">{{ lesson.quiz.description }}</p>
+                <div class="quiz-info">
+                    <span class="info-badge">
+                        <i class="fas fa-list me-1"></i>{{ lesson.quiz.questions|length }} Questions
+                    </span>
+                    <span class="info-badge">
+                        <i class="fas fa-clock me-1"></i>{{ lesson.quiz.time_limit }} minutes
+                    </span>
+                    <span class="info-badge">
+                        <i class="fas fa-target me-1"></i>70% to pass
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Quiz Form -->
+            <div id="quiz-form" class="quiz-container">
+                {% for question in lesson.quiz.questions %}
+                <div class="question-card mb-4" data-question="{{ loop.index0 }}">
+                    <div class="question-header">
+                        <h5 class="question-number">Question {{ loop.index }}</h5>
+                        <span class="question-type">{{ question.type.title() }}</span>
+                    </div>
+                    
+                    <div class="question-content">
+                        <p class="question-text">{{ question.question }}</p>
+                        
+                        {% if question.type == 'multiple_choice' %}
+                        <div class="options-list">
+                            {% for option in question.options %}
+                            <div class="form-check option-item">
+                                <input class="form-check-input" type="radio" 
+                                       name="question_{{ loop.index0 }}" 
+                                       id="q{{ loop.index0 }}_{{ loop.index0 }}" 
+                                       value="{{ loop.index0 }}">
+                                <label class="form-check-label" for="q{{ loop.index0 }}_{{ loop.index0 }}">
+                                    {{ option }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        {% elif question.type == 'code' %}
+                        <div class="code-question">
+                            <p class="code-instruction">{{ question.instruction }}</p>
+                            <textarea class="form-control code-input" 
+                                      name="question_{{ loop.index0 }}"
+                                      placeholder="Write your Python code here..."
+                                      rows="6">{{ question.get('starter_code', '') }}</textarea>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Quiz Actions -->
+                <div class="quiz-actions mt-5">
+                    <button id="submit-quiz-btn" class="btn btn-success btn-lg" onclick="submitQuiz()">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Quiz
+                    </button>
+                    <button class="btn btn-outline-secondary btn-lg ms-3" onclick="resetQuiz()">
+                        <i class="fas fa-redo me-2"></i>Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Results -->
+            <div id="quiz-results" class="quiz-results" style="display: none;">
+                <div class="results-header text-center mb-4">
+                    <div class="score-circle">
+                        <div class="score-text">
+                            <span id="score-value">0</span>%
+                        </div>
+                    </div>
+                    <h3 id="result-title" class="mt-3"></h3>
+                    <p id="result-message" class="text-muted"></p>
+                </div>
+
+                <div class="results-breakdown">
+                    <h4 class="mb-3">Question Breakdown</h4>
+                    <div id="results-list">
+                        <!-- Results will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="results-actions mt-4 text-center">
+                    <button class="btn btn-primary me-3" onclick="retakeQuiz()">
+                        <i class="fas fa-redo me-1"></i>Retake Quiz
+                    </button>
+                    <a href="{{ url_for('lesson', lesson_id=lesson.id) }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Lesson
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const quizData = {{ lesson.quiz | tojson }};
+const lessonId = "{{ lesson.id }}";
+
+function submitQuiz() {
+    const answers = {};
+    const questions = document.querySelectorAll('.question-card');
+    
+    questions.forEach((question, index) => {
+        const questionIndex = question.dataset.question;
+        const questionType = quizData.questions[index].type;
+        
+        if (questionType === 'multiple_choice') {
+            const checkedOption = question.querySelector('input[type="radio"]:checked');
+            if (checkedOption) {
+                answers[questionIndex] = parseInt(checkedOption.value);
+            }
+        } else if (questionType === 'code') {
+            const codeInput = question.querySelector('.code-input');
+            answers[questionIndex] = codeInput.value;
+        }
+    });
+
+    // Show loading state
+    const submitBtn = document.getElementById('submit-quiz-btn');
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+    submitBtn.disabled = true;
+
+    fetch('/submit_quiz', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            lesson_id: lessonId,
+            answers: answers
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        displayResults(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error submitting quiz', 'error');
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Quiz';
+        submitBtn.disabled = false;
+    });
+}
+
+function displayResults(results) {
+    document.getElementById('quiz-form').style.display = 'none';
+    document.getElementById('quiz-results').style.display = 'block';
+    
+    // Update score
+    document.getElementById('score-value').textContent = results.score;
+    
+    // Update result message
+    const resultTitle = document.getElementById('result-title');
+    const resultMessage = document.getElementById('result-message');
+    
+    if (results.passed) {
+        resultTitle.textContent = 'Congratulations!';
+        resultTitle.className = 'mt-3 text-success';
+        resultMessage.textContent = 'You passed the quiz! You can now move on to the next lesson.';
+    } else {
+        resultTitle.textContent = 'Keep Learning!';
+        resultTitle.className = 'mt-3 text-warning';
+        resultMessage.textContent = 'You need 70% to pass. Review the lesson and try again.';
+    }
+    
+    // Display question breakdown
+    const resultsList = document.getElementById('results-list');
+    resultsList.innerHTML = '';
+    
+    results.results.forEach((result, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'result-item mb-3';
+        
+        const isCorrect = result.correct;
+        const statusIcon = isCorrect ? 'fa-check-circle text-success' : 'fa-times-circle text-danger';
+        const statusText = isCorrect ? 'Correct' : 'Incorrect';
+        
+        questionDiv.innerHTML = `
+            <div class="d-flex align-items-start">
+                <div class="result-icon me-3">
+                    <i class="fas ${statusIcon}"></i>
+                </div>
+                <div class="result-content flex-grow-1">
+                    <h6>Question ${index + 1}: ${statusText}</h6>
+                    <p class="text-muted mb-1">${quizData.questions[index].question}</p>
+                    ${result.explanation ? `<p class="explanation">${result.explanation}</p>` : ''}
+                </div>
+            </div>
+        `;
+        
+        resultsList.appendChild(questionDiv);
+    });
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retakeQuiz() {
+    document.getElementById('quiz-results').style.display = 'none';
+    document.getElementById('quiz-form').style.display = 'block';
+    resetQuiz();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetQuiz() {
+    // Clear all radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+    });
+    
+    // Clear all code inputs
+    document.querySelectorAll('.code-input').forEach(textarea => {
+        const question = textarea.closest('.question-card');
+        const questionIndex = parseInt(question.dataset.question);
+        const starterCode = quizData.questions[questionIndex].starter_code || '';
+        textarea.value = starterCode;
+    });
+    
+    // Reset submit button
+    const submitBtn = document.getElementById('submit-quiz-btn');
+    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Quiz';
+    submitBtn.disabled = false;
+}
+
+function showToast(message, type) {
+    // Simple toast notification (you can enhance this)
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'error' ? 'danger' : 'success'} position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999;';
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+</script>
+{% endblock %}

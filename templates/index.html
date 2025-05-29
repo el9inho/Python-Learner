@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Learn Python Interactive{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold text-primary mb-4">
+                    Master Python Programming
+                </h1>
+                <p class="lead mb-4">
+                    Learn Python from scratch with interactive lessons, hands-on coding practice, 
+                    and instant feedback. Perfect for beginners starting their data science journey.
+                </p>
+                <div class="d-flex gap-3 mb-4">
+                    <a href="{{ url_for('lessons') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-play me-2"></i>Start Learning
+                    </a>
+                    <a href="{{ url_for('practice') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-code me-2"></i>Try Code Runner
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="code-preview">
+                    <div class="code-header">
+                        <span class="code-dot"></span>
+                        <span class="code-dot"></span>
+                        <span class="code-dot"></span>
+                        <span class="code-title">hello_world.py</span>
+                    </div>
+                    <pre><code class="language-python"># Welcome to Python!
+def greet(name):
+    return f"Hello, {name}!"
+
+# Let's start learning
+message = greet("Future Programmer")
+print(message)
+
+# Output: Hello, Future Programmer!</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- Features Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold text-dark">Why Learn Python With Us?</h2>
+            <p class="lead text-muted">Interactive learning designed for absolute beginners</p>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="feature-card text-center p-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-graduation-cap fa-3x text-primary"></i>
+                </div>
+                <h4>Interactive Lessons</h4>
+                <p class="text-muted">
+                    Step-by-step tutorials with clear explanations, code examples, 
+                    and practice exercises.
+                </p>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="feature-card text-center p-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-code fa-3x text-success"></i>
+                </div>
+                <h4>Live Code Runner</h4>
+                <p class="text-muted">
+                    Practice coding in a safe, sandboxed environment with instant 
+                    feedback and results.
+                </p>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="feature-card text-center p-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-chart-line fa-3x text-warning"></i>
+                </div>
+                <h4>Progress Tracking</h4>
+                <p class="text-muted">
+                    Monitor your learning journey with quizzes, completion badges, 
+                    and skill assessments.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Lessons -->
+    {% if lessons %}
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold text-dark">Start Your Journey</h2>
+            <p class="lead text-muted">Begin with these fundamental Python concepts</p>
+        </div>
+        
+        {% for lesson in lessons %}
+        <div class="col-md-4 mb-4">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-icon">
+                        <i class="fas {{ lesson.icon }}"></i>
+                    </div>
+                    {% if lesson.id in completed_lessons %}
+                    <div class="completion-badge">
+                        <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="lesson-content">
+                    <h5 class="lesson-title">{{ lesson.title }}</h5>
+                    <p class="lesson-description">{{ lesson.description }}</p>
+                    <div class="lesson-meta mb-3">
+                        <span class="difficulty-badge difficulty-{{ lesson.difficulty }}">
+                            {{ lesson.difficulty.title() }}
+                        </span>
+                        <span class="duration-badge">
+                            <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                        </span>
+                    </div>
+                    <a href="{{ url_for('lesson', lesson_id=lesson.id) }}" 
+                       class="btn btn-primary btn-sm">
+                        {% if lesson.id in completed_lessons %}
+                            <i class="fas fa-redo me-1"></i>Review
+                        {% else %}
+                            <i class="fas fa-play me-1"></i>Start Lesson
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <div class="col-12 text-center mt-4">
+            <a href="{{ url_for('lessons') }}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-list me-2"></i>View All Lessons
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

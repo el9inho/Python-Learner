@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lesson.title }} - Learn Python Interactive{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Lesson Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('lessons') }}">Lessons</a></li>
+                    <li class="breadcrumb-item active">{{ lesson.title }}</li>
+                </ol>
+            </nav>
+            
+            <div class="lesson-header-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h1 class="display-5 fw-bold text-primary mb-3">{{ lesson.title }}</h1>
+                        <p class="lead mb-3">{{ lesson.description }}</p>
+                        
+                        <div class="lesson-meta">
+                            <span class="difficulty-badge difficulty-{{ lesson.difficulty }}">
+                                {{ lesson.difficulty.title() }}
+                            </span>
+                            <span class="duration-badge">
+                                <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="lesson-icon-large">
+                        <i class="fas {{ lesson.icon }}"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Learning Objectives -->
+            {% if lesson.objectives %}
+            <div class="content-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-target me-2 text-primary"></i>Learning Objectives
+                </h3>
+                <ul class="objectives-list">
+                    {% for objective in lesson.objectives %}
+                    <li>{{ objective }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Lesson Content -->
+            {% for section in lesson.content %}
+            <div class="content-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-bookmark me-2 text-primary"></i>{{ section.title }}
+                </h3>
+                
+                {% for paragraph in section.content %}
+                {% if paragraph.type == 'text' %}
+                <p class="section-text">{{ paragraph.text }}</p>
+                
+                {% elif paragraph.type == 'code' %}
+                <div class="code-block mb-3">
+                    <div class="code-header">
+                        <span class="code-language">Python</span>
+                        <button class="btn btn-sm btn-outline-light copy-code-btn" 
+                                onclick="copyCode(this)">
+                            <i class="fas fa-copy me-1"></i>Copy
+                        </button>
+                    </div>
+                    <pre><code class="language-python">{{ paragraph.code }}</code></pre>
+                </div>
+                
+                {% elif paragraph.type == 'exercise' %}
+                <div class="exercise-block mb-4">
+                    <div class="exercise-header">
+                        <h5>
+                            <i class="fas fa-dumbbell me-2"></i>Try It Yourself
+                        </h5>
+                    </div>
+                    <div class="exercise-content">
+                        <p class="exercise-instruction">{{ paragraph.instruction }}</p>
+                        <div class="code-editor">
+                            <textarea class="form-control code-input" 
+                                      placeholder="Write your Python code here..."
+                                      rows="6">{{ paragraph.get('starter_code', '') }}</textarea>
+                            <div class="editor-actions mt-2">
+                                <button class="btn btn-success run-code-btn" onclick="runExerciseCode(this)">
+                                    <i class="fas fa-play me-1"></i>Run Code
+                                </button>
+                            </div>
+                            <div class="code-output mt-3" style="display: none;">
+                                <div class="output-header">Output:</div>
+                                <pre class="output-content"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% elif paragraph.type == 'note' %}
+                <div class="alert alert-info note-block">
+                    <div class="note-header">
+                        <i class="fas fa-lightbulb me-2"></i>Note
+                    </div>
+                    <p class="mb-0">{{ paragraph.text }}</p>
+                </div>
+                
+                {% elif paragraph.type == 'warning' %}
+                <div class="alert alert-warning warning-block">
+                    <div class="warning-header">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Important
+                    </div>
+                    <p class="mb-0">{{ paragraph.text }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+            <!-- Lesson Navigation -->
+            <div class="lesson-navigation mt-5">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-primary" onclick="markLessonComplete('{{ lesson.id }}')">
+                        <i class="fas fa-check me-1"></i>Mark as Complete
+                    </button>
+                    
+                    {% if lesson.get('quiz') %}
+                    <a href="{{ url_for('quiz', lesson_id=lesson.id) }}" class="btn btn-success">
+                        <i class="fas fa-question-circle me-1"></i>Take Quiz
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="lesson-sidebar">
+                <!-- Topics Covered -->
+                <div class="sidebar-section">
+                    <h5 class="sidebar-title">
+                        <i class="fas fa-list me-2"></i>Topics Covered
+                    </h5>
+                    <div class="topics-list">
+                        {% for topic in lesson.topics %}
+                        <span class="topic-tag">{{ topic }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Quick Reference -->
+                {% if lesson.get('quick_reference') %}
+                <div class="sidebar-section">
+                    <h5 class="sidebar-title">
+                        <i class="fas fa-bookmark me-2"></i>Quick Reference
+                    </h5>
+                    <div class="reference-list">
+                        {% for ref in lesson.quick_reference %}
+                        <div class="reference-item">
+                            <code>{{ ref.syntax }}</code>
+                            <small class="text-muted d-block">{{ ref.description }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Practice Area -->
+                <div class="sidebar-section">
+                    <h5 class="sidebar-title">
+                        <i class="fas fa-terminal me-2"></i>Quick Practice
+                    </h5>
+                    <div class="mini-editor">
+                        <textarea class="form-control code-input" 
+                                  placeholder="Test your code here..."
+                                  rows="4"></textarea>
+                        <button class="btn btn-primary btn-sm mt-2 w-100" onclick="runSidebarCode(this)">
+                            <i class="fas fa-play me-1"></i>Run
+                        </button>
+                        <div class="code-output mt-2" style="display: none;">
+                            <pre class="output-content"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/code-runner.js') }}"></script>
+<script>
+function markLessonComplete(lessonId) {
+    fetch('/complete_lesson', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({lesson_id: lessonId})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Lesson marked as complete!', 'success');
+        }
+    })
+    .catch(error => {
+        showToast('Error marking lesson complete', 'error');
+    });
+}
+
+function copyCode(button) {
+    const codeBlock = button.closest('.code-block').querySelector('code');
+    const text = codeBlock.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        button.innerHTML = '<i class="fas fa-check me-1"></i>Copied!';
+        setTimeout(() => {
+            button.innerHTML = '<i class="fas fa-copy me-1"></i>Copy';
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}

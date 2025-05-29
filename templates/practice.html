@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}Practice - Learn Python Interactive{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">Python Code Runner</h1>
+            <p class="lead text-muted">Practice your Python skills in a safe, interactive environment</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Code Editor -->
+        <div class="col-lg-8">
+            <div class="code-runner-container">
+                <div class="editor-header">
+                    <div class="editor-title">
+                        <i class="fas fa-terminal me-2"></i>Python Editor
+                    </div>
+                    <div class="editor-actions">
+                        <button class="btn btn-success btn-sm" id="run-code-btn" onclick="runCode()">
+                            <i class="fas fa-play me-1"></i>Run Code
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="clearEditor()">
+                            <i class="fas fa-trash me-1"></i>Clear
+                        </button>
+                        <button class="btn btn-outline-info btn-sm" onclick="loadExample()">
+                            <i class="fas fa-lightbulb me-1"></i>Load Example
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="code-editor">
+                    <textarea id="code-input" class="form-control code-input" 
+                              placeholder="# Welcome to the Python Code Runner!
+# Write your Python code here and click 'Run Code' to see the output.
+
+print('Hello, World!')
+
+# Try some basic Python:
+name = 'Python Learner'
+age = 25
+print(f'My name is {name} and I am {age} years old.')
+
+# Practice with loops:
+for i in range(5):
+    print(f'Count: {i}')
+
+# Try functions:
+def greet(name):
+    return f'Hello, {name}!'
+
+message = greet('Coder')
+print(message)"
+                              rows="15"></textarea>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-container mt-3">
+                <div class="output-header">
+                    <div class="output-title">
+                        <i class="fas fa-terminal me-2"></i>Output
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="clearOutput()">
+                        <i class="fas fa-eraser me-1"></i>Clear Output
+                    </button>
+                </div>
+                <div id="output-content" class="output-content">
+                    <div class="output-placeholder">
+                        <i class="fas fa-play-circle fa-2x text-muted mb-2"></i>
+                        <p class="text-muted">Click "Run Code" to see your output here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="practice-sidebar">
+                <!-- Quick Examples -->
+                <div class="sidebar-section">
+                    <h5 class="sidebar-title">
+                        <i class="fas fa-code me-2"></i>Quick Examples
+                    </h5>
+                    <div class="examples-list">
+                        <button class="example-btn" onclick="loadExampleCode('variables')">
+                            <i class="fas fa-box me-2"></i>Variables & Data Types
+                        </button>
+                        <button class="example-btn" onclick="loadExampleCode('loops')">
+                            <i class="fas fa-sync me-2"></i>Loops
+                        </button>
+                        <button class="example-btn" onclick="loadExampleCode('functions')">
+                            <i class="fas fa-function me-2"></i>Functions
+                        </button>
+                        <button class="example-btn" onclick="loadExampleCode('lists')">
+                            <i class="fas fa-list me-2"></i>Lists & Dictionaries
+                        </button>
+                        <button class="example-btn" onclick="loadExampleCode('conditionals')">
+                            <i class="fas fa-question me-2"></i>If/Else Statements
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Python Cheat Sheet -->
+                <div class="sidebar-section">
+                    <h5 class="sidebar-title">
+                        <i class="fas fa-bookmark me-2"></i>Quick Reference
+                    </h5>
+                    <div class="cheat-sheet">
+                        <div class="cheat-item">
+                            <code>print()</code>
+                            <small>Display output</small>
+                        </div>
+                        <div class="cheat-item">
+                            <code>len()</code>
+                            <small>Get length</small>
+                        </div>
+                        <div class="cheat-item">
+                            <code>range()</code>
+                            <small>Generate numbers</small>
+                        </div>
+                        <div class="cheat-item">
+                            <code>input()</code>
+                            <small>Get user input</small>
+                        </div>
+                        <div class="cheat-item">
+                            <code>str(), int(), float()</code>
+                            <small>Type conversion</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips -->
+                <div class="sidebar-section">
+                    <h5 class="sidebar-title">
+                        <i class="fas fa-lightbulb me-2"></i>Tips
+                    </h5>
+                    <div class="tips-list">
+                        <div class="tip-item">
+                            <i class="fas fa-info-circle text-info me-2"></i>
+                            Use <code>print()</code> to see your variable values
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                            Python is case-sensitive: <code>Print</code> ≠ <code>print</code>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Indentation matters in Python - use spaces consistently
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-comment text-muted me-2"></i>
+                            Use <code>#</code> for comments in your code
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Executions -->
+                <div class="sidebar-section">
+                    <h5 class="sidebar-title">
+                        <i class="fas fa-history me-2"></i>Session History
+                    </h5>
+                    <div id="execution-history" class="history-list">
+                        <p class="text-muted text-center">No executions yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/code-runner.js') }}"></script>
+<script>
+// Example code snippets
+const examples = {
+    variables: `# Variables and Data Types
+name = "Alice"
+age = 30
+height = 5.6
+is_student = True
+
+print(f"Name: {name}")
+print(f"Age: {age}")
+print(f"Height: {height} feet")
+print(f"Is student: {is_student}")
+
+# Type checking
+print(f"Type of name: {type(name)}")
+print(f"Type of age: {type(age)}")`,
+
+    loops: `# For loops
+print("Counting from 1 to 5:")
+for i in range(1, 6):
+    print(f"Count: {i}")
+
+# While loop
+print("\\nCountdown:")
+countdown = 5
+while countdown > 0:
+    print(f"{countdown}...")
+    countdown -= 1
+print("Blast off!")
+
+# Loop through a list
+fruits = ["apple", "banana", "orange"]
+print("\\nFruits:")
+for fruit in fruits:
+    print(f"I like {fruit}")`,
+
+    functions: `# Functions
+def greet(name):
+    return f"Hello, {name}!"
+
+def add_numbers(a, b):
+    return a + b
+
+def calculate_area(length, width):
+    area = length * width
+    return area
+
+# Using functions
+message = greet("Python Learner")
+print(message)
+
+sum_result = add_numbers(5, 3)
+print(f"5 + 3 = {sum_result}")
+
+room_area = calculate_area(10, 12)
+print(f"Room area: {room_area} square feet")`,
+
+    lists: `# Lists
+colors = ["red", "green", "blue"]
+numbers = [1, 2, 3, 4, 5]
+
+print("Colors:", colors)
+print("First color:", colors[0])
+print("Last color:", colors[-1])
+
+# Adding to lists
+colors.append("yellow")
+print("After adding yellow:", colors)
+
+# Dictionaries
+person = {
+    "name": "John",
+    "age": 25,
+    "city": "New York"
+}
+
+print("\\nPerson info:")
+for key, value in person.items():
+    print(f"{key}: {value}")`,
+
+    conditionals: `# If/Else statements
+age = 18
+temperature = 75
+
+if age >= 18:
+    print("You are an adult")
+else:
+    print("You are a minor")
+
+# Multiple conditions
+if temperature < 60:
+    print("It's cold outside")
+elif temperature < 80:
+    print("Nice weather!")
+else:
+    print("It's hot outside")
+
+# Combining conditions
+score = 85
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+elif score >= 70:
+    grade = "C"
+else:
+    grade = "F"
+
+print(f"Score: {score}, Grade: {grade}")`
+};
+
+function loadExampleCode(exampleType) {
+    if (examples[exampleType]) {
+        document.getElementById('code-input').value = examples[exampleType];
+        clearOutput();
+    }
+}
+
+function loadExample() {
+    // Load a random example
+    const exampleKeys = Object.keys(examples);
+    const randomKey = exampleKeys[Math.floor(Math.random() * exampleKeys.length)];
+    loadExampleCode(randomKey);
+}
+
+function clearEditor() {
+    document.getElementById('code-input').value = '';
+    clearOutput();
+}
+
+function clearOutput() {
+    const outputContent = document.getElementById('output-content');
+    outputContent.innerHTML = `
+        <div class="output-placeholder">
+            <i class="fas fa-play-circle fa-2x text-muted mb-2"></i>
+            <p class="text-muted">Click "Run Code" to see your output here</p>
+        </div>
+    `;
+}
+
+// Initialize with placeholder content
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up syntax highlighting
+    Prism.highlightAll();
+});
+</script>
+{% endblock %}

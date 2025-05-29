@@ -1,0 +1,706 @@
+{
+  "lessons": [
+    {
+      "id": "python-basics",
+      "title": "Python Basics & Variables",
+      "description": "Learn the fundamentals of Python programming, including variables, data types, and basic operations.",
+      "difficulty": "beginner",
+      "duration": "30 min",
+      "icon": "fa-play-circle",
+      "topics": ["Variables", "Data Types", "Numbers", "Strings", "Booleans"],
+      "objectives": [
+        "Understand what variables are and how to create them",
+        "Learn about different data types in Python",
+        "Practice working with numbers, strings, and booleans",
+        "Master basic operations and type conversion"
+      ],
+      "content": [
+        {
+          "title": "What are Variables?",
+          "content": [
+            {
+              "type": "text",
+              "text": "Variables in Python are containers that store data values. Unlike other programming languages, Python has no command for declaring a variable - you simply assign a value to it."
+            },
+            {
+              "type": "code",
+              "code": "# Creating variables in Python\nname = \"Alice\"\nage = 25\nheight = 5.6\nis_student = True\n\nprint(name)\nprint(age)\nprint(height)\nprint(is_student)"
+            },
+            {
+              "type": "note",
+              "text": "Variable names are case-sensitive in Python. 'age' and 'Age' are different variables."
+            }
+          ]
+        },
+        {
+          "title": "Data Types",
+          "content": [
+            {
+              "type": "text",
+              "text": "Python has several built-in data types. The most common ones are integers (int), floating-point numbers (float), strings (str), and booleans (bool)."
+            },
+            {
+              "type": "code",
+              "code": "# Different data types\ninteger_num = 42\nfloat_num = 3.14\ntext_string = \"Hello, Python!\"\nis_true = True\nis_false = False\n\n# Check the type of a variable\nprint(type(integer_num))\nprint(type(float_num))\nprint(type(text_string))\nprint(type(is_true))"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Create variables of different types and print their values and types:",
+              "starter_code": "# Create your variables here\nmy_name = \nmy_age = \nmy_height = \nis_learning = \n\n# Print them out\nprint(f\"Name: {my_name}, Type: {type(my_name)}\")\n# Add more print statements for other variables"
+            }
+          ]
+        },
+        {
+          "title": "Working with Strings",
+          "content": [
+            {
+              "type": "text",
+              "text": "Strings are sequences of characters enclosed in quotes. You can use single quotes, double quotes, or triple quotes for multi-line strings."
+            },
+            {
+              "type": "code",
+              "code": "# Different ways to create strings\nsingle_quote = 'Hello'\ndouble_quote = \"World\"\nmulti_line = \"\"\"This is a\nmulti-line string\"\"\"\n\n# String operations\nfirst_name = \"John\"\nlast_name = \"Doe\"\nfull_name = first_name + \" \" + last_name\n\nprint(full_name)\nprint(len(full_name))  # Length of string\nprint(full_name.upper())  # Convert to uppercase\nprint(full_name.lower())  # Convert to lowercase"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Practice string operations:",
+              "starter_code": "# Create two string variables\nfirst_word = \"Python\"\nsecond_word = \"Programming\"\n\n# Combine them with a space\ncombined = \n\n# Print the result in uppercase\nprint()\n\n# Print the length of the combined string\nprint(f\"Length: {}\")"
+            }
+          ]
+        }
+      ],
+      "quick_reference": [
+        {
+          "syntax": "variable_name = value",
+          "description": "Create a variable"
+        },
+        {
+          "syntax": "type(variable)",
+          "description": "Check variable type"
+        },
+        {
+          "syntax": "str(value)",
+          "description": "Convert to string"
+        },
+        {
+          "syntax": "int(value)",
+          "description": "Convert to integer"
+        }
+      ],
+      "quiz": {
+        "title": "Python Basics Quiz",
+        "description": "Test your understanding of Python variables and data types",
+        "time_limit": "10",
+        "questions": [
+          {
+            "type": "multiple_choice",
+            "question": "Which of the following is a valid variable name in Python?",
+            "options": [
+              "my_variable",
+              "2nd_variable",
+              "my-variable",
+              "class"
+            ],
+            "correct": 0,
+            "explanation": "Variable names can contain letters, numbers, and underscores, but cannot start with a number or contain hyphens. 'class' is a reserved keyword."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "What data type is the value 'True' in Python?",
+            "options": [
+              "string",
+              "integer",
+              "boolean",
+              "float"
+            ],
+            "correct": 2,
+            "explanation": "True (capitalized) is a boolean value in Python, representing logical truth."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "How do you check the data type of a variable 'x' in Python?",
+            "options": [
+              "typeof(x)",
+              "type(x)",
+              "datatype(x)",
+              "x.type()"
+            ],
+            "correct": 1,
+            "explanation": "The type() function returns the data type of a variable in Python."
+          }
+        ]
+      }
+    },
+    {
+      "id": "control-flow",
+      "title": "Control Flow & Conditionals",
+      "description": "Master if/else statements, comparison operators, and logical operators to control program flow.",
+      "difficulty": "beginner",
+      "duration": "25 min",
+      "icon": "fa-code-branch",
+      "topics": ["If Statements", "Else", "Elif", "Comparison Operators", "Logical Operators"],
+      "objectives": [
+        "Understand conditional statements and when to use them",
+        "Learn comparison and logical operators",
+        "Practice writing if/else/elif statements",
+        "Create programs that make decisions"
+      ],
+      "content": [
+        {
+          "title": "If Statements",
+          "content": [
+            {
+              "type": "text",
+              "text": "If statements allow your program to make decisions. They execute code only when a certain condition is True."
+            },
+            {
+              "type": "code",
+              "code": "# Basic if statement\nage = 18\n\nif age >= 18:\n    print(\"You are an adult\")\n\n# If with else\ntemperature = 75\n\nif temperature > 80:\n    print(\"It's hot today!\")\nelse:\n    print(\"It's not too hot today\")"
+            },
+            {
+              "type": "warning",
+              "text": "Python uses indentation to define code blocks. Make sure to indent the code inside if statements with 4 spaces or a tab."
+            }
+          ]
+        },
+        {
+          "title": "Multiple Conditions with Elif",
+          "content": [
+            {
+              "type": "text",
+              "text": "When you have multiple conditions to check, use elif (else if) statements. Python checks them in order and executes the first one that's True."
+            },
+            {
+              "type": "code",
+              "code": "# Multiple conditions\nscore = 85\n\nif score >= 90:\n    grade = \"A\"\nelif score >= 80:\n    grade = \"B\"\nelif score >= 70:\n    grade = \"C\"\nelif score >= 60:\n    grade = \"D\"\nelse:\n    grade = \"F\"\n\nprint(f\"Your grade is: {grade}\")"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Write a program that determines the weather description based on temperature:",
+              "starter_code": "temperature = 65\n\n# Write your if/elif/else statements here\n# Below 32: \"Freezing\"\n# 32-50: \"Cold\"\n# 51-70: \"Cool\"\n# 71-85: \"Warm\"\n# Above 85: \"Hot\"\n\nif :\n    weather = \nelif :\n    weather = \n# Add more conditions\n\nprint(f\"It's {weather} outside!\")"
+            }
+          ]
+        },
+        {
+          "title": "Comparison and Logical Operators",
+          "content": [
+            {
+              "type": "text",
+              "text": "Comparison operators let you compare values, while logical operators let you combine multiple conditions."
+            },
+            {
+              "type": "code",
+              "code": "# Comparison operators\nprint(5 == 5)   # Equal to\nprint(5 != 3)   # Not equal to\nprint(5 > 3)    # Greater than\nprint(5 < 10)   # Less than\nprint(5 >= 5)   # Greater than or equal\nprint(3 <= 5)   # Less than or equal\n\n# Logical operators\nage = 25\nincome = 50000\n\n# AND - both conditions must be True\nif age >= 18 and income >= 30000:\n    print(\"Eligible for loan\")\n\n# OR - at least one condition must be True\nif age < 18 or age > 65:\n    print(\"Special discount available\")\n\n# NOT - reverses the boolean value\nis_student = True\nif not is_student:\n    print(\"Regular price applies\")"
+            }
+          ]
+        }
+      ],
+      "quick_reference": [
+        {
+          "syntax": "if condition:",
+          "description": "Execute code if condition is True"
+        },
+        {
+          "syntax": "elif condition:",
+          "description": "Check additional condition"
+        },
+        {
+          "syntax": "else:",
+          "description": "Execute if no conditions are True"
+        },
+        {
+          "syntax": "and, or, not",
+          "description": "Logical operators"
+        }
+      ],
+      "quiz": {
+        "title": "Control Flow Quiz",
+        "description": "Test your knowledge of if statements and conditional logic",
+        "time_limit": "8",
+        "questions": [
+          {
+            "type": "multiple_choice",
+            "question": "What will this code print?\n\nx = 10\nif x > 5:\n    print(\"Big\")\nelif x > 8:\n    print(\"Very Big\")\nelse:\n    print(\"Small\")",
+            "options": [
+              "Big",
+              "Very Big",
+              "Small",
+              "Both Big and Very Big"
+            ],
+            "correct": 0,
+            "explanation": "The first condition (x > 5) is True, so 'Big' is printed. Python doesn't check the elif after finding a True condition."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "Which logical operator would you use to check if BOTH conditions are true?",
+            "options": [
+              "or",
+              "and",
+              "not",
+              "if"
+            ],
+            "correct": 1,
+            "explanation": "The 'and' operator returns True only when both conditions are True."
+          }
+        ]
+      }
+    },
+    {
+      "id": "loops",
+      "title": "Loops & Iteration",
+      "description": "Learn how to repeat code efficiently using for loops and while loops in Python.",
+      "difficulty": "beginner",
+      "duration": "35 min",
+      "icon": "fa-sync-alt",
+      "topics": ["For Loops", "While Loops", "Range Function", "Break", "Continue"],
+      "objectives": [
+        "Understand when and why to use loops",
+        "Master for loops and the range() function",
+        "Learn while loops and loop control",
+        "Practice iterating over different data types"
+      ],
+      "content": [
+        {
+          "title": "For Loops",
+          "content": [
+            {
+              "type": "text",
+              "text": "For loops are used to iterate over sequences (like lists, strings, or ranges). They're perfect when you know how many times you want to repeat something."
+            },
+            {
+              "type": "code",
+              "code": "# Loop through a range of numbers\nfor i in range(5):\n    print(f\"Count: {i}\")\n\nprint(\"\\n---\\n\")\n\n# Loop through a list\nfruits = [\"apple\", \"banana\", \"orange\"]\nfor fruit in fruits:\n    print(f\"I like {fruit}\")\n\nprint(\"\\n---\\n\")\n\n# Loop through a string\nword = \"Python\"\nfor letter in word:\n    print(letter)"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Create a for loop that prints the multiplication table for number 5:",
+              "starter_code": "# Print multiplication table for 5\n# Should print: 5 x 1 = 5, 5 x 2 = 10, etc. up to 5 x 10 = 50\n\nfor i in range():\n    result = \n    print(f\"5 x {i} = {result}\")"
+            }
+          ]
+        },
+        {
+          "title": "The Range Function",
+          "content": [
+            {
+              "type": "text",
+              "text": "The range() function generates sequences of numbers. It's commonly used with for loops and has several forms."
+            },
+            {
+              "type": "code",
+              "code": "# Different ways to use range()\n\n# range(stop) - from 0 to stop-1\nprint(\"range(5):\")\nfor i in range(5):\n    print(i, end=\" \")\nprint(\"\\n\")\n\n# range(start, stop) - from start to stop-1\nprint(\"range(2, 8):\")\nfor i in range(2, 8):\n    print(i, end=\" \")\nprint(\"\\n\")\n\n# range(start, stop, step) - with custom step\nprint(\"range(0, 10, 2):\")\nfor i in range(0, 10, 2):\n    print(i, end=\" \")\nprint(\"\\n\")\n\n# Counting backwards\nprint(\"range(10, 0, -1):\")\nfor i in range(10, 0, -1):\n    print(i, end=\" \")"
+            }
+          ]
+        },
+        {
+          "title": "While Loops",
+          "content": [
+            {
+              "type": "text",
+              "text": "While loops continue executing as long as a condition remains True. They're useful when you don't know exactly how many iterations you need."
+            },
+            {
+              "type": "code",
+              "code": "# Basic while loop\ncount = 0\nwhile count < 5:\n    print(f\"Count is: {count}\")\n    count += 1  # Same as count = count + 1\n\nprint(\"Loop finished!\")\n\n# While loop with user input simulation\nnumber = 1\nwhile number != 0:\n    print(f\"Current number: {number}\")\n    number -= 1\n    if number < -3:  # Safety break to prevent infinite loop\n        break"
+            },
+            {
+              "type": "warning",
+              "text": "Be careful with while loops! Always make sure the condition will eventually become False, or you'll create an infinite loop."
+            },
+            {
+              "type": "exercise",
+              "instruction": "Create a while loop that finds the first number greater than 100 that's divisible by 7:",
+              "starter_code": "# Start checking from 101\nnumber = 101\n\nwhile :\n    # Check if number is divisible by 7\n    if :\n        print(f\"Found it: {number}\")\n        break\n    number += 1"
+            }
+          ]
+        },
+        {
+          "title": "Loop Control: Break and Continue",
+          "content": [
+            {
+              "type": "text",
+              "text": "Break and continue statements give you more control over your loops. Break exits the loop completely, while continue skips the current iteration."
+            },
+            {
+              "type": "code",
+              "code": "# Using break to exit a loop early\nprint(\"Using break:\")\nfor i in range(10):\n    if i == 5:\n        break\n    print(i)\n\nprint(\"\\nUsing continue:\")\n# Using continue to skip iterations\nfor i in range(10):\n    if i % 2 == 0:  # Skip even numbers\n        continue\n    print(f\"Odd number: {i}\")\n\nprint(\"\\nFinding prime numbers:\")\n# More complex example\nfor num in range(2, 20):\n    is_prime = True\n    for i in range(2, int(num/2) + 1):\n        if num % i == 0:\n            is_prime = False\n            break\n    if is_prime:\n        print(f\"{num} is prime\")"
+            }
+          ]
+        }
+      ],
+      "quick_reference": [
+        {
+          "syntax": "for item in sequence:",
+          "description": "Iterate over sequence"
+        },
+        {
+          "syntax": "while condition:",
+          "description": "Loop while condition is True"
+        },
+        {
+          "syntax": "range(start, stop, step)",
+          "description": "Generate number sequence"
+        },
+        {
+          "syntax": "break",
+          "description": "Exit loop immediately"
+        },
+        {
+          "syntax": "continue",
+          "description": "Skip to next iteration"
+        }
+      ],
+      "quiz": {
+        "title": "Loops Quiz",
+        "description": "Test your understanding of for loops, while loops, and loop control",
+        "time_limit": "12",
+        "questions": [
+          {
+            "type": "multiple_choice",
+            "question": "What will range(1, 6) produce?",
+            "options": [
+              "1, 2, 3, 4, 5, 6",
+              "1, 2, 3, 4, 5",
+              "0, 1, 2, 3, 4, 5",
+              "2, 3, 4, 5, 6"
+            ],
+            "correct": 1,
+            "explanation": "range(1, 6) starts at 1 and goes up to (but not including) 6, so it produces 1, 2, 3, 4, 5."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "What does the 'continue' statement do in a loop?",
+            "options": [
+              "Exits the loop completely",
+              "Starts the loop over from the beginning",
+              "Skips the rest of the current iteration",
+              "Pauses the loop"
+            ],
+            "correct": 2,
+            "explanation": "The 'continue' statement skips the remaining code in the current iteration and moves to the next iteration of the loop."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "How many times will this loop run?\n\nfor i in range(2, 10, 3):",
+            "options": [
+              "2 times",
+              "3 times",
+              "4 times",
+              "8 times"
+            ],
+            "correct": 1,
+            "explanation": "range(2, 10, 3) produces 2, 5, 8 (starting at 2, stepping by 3, stopping before 10), so the loop runs 3 times."
+          }
+        ]
+      }
+    },
+    {
+      "id": "functions",
+      "title": "Functions & Code Organization",
+      "description": "Learn to create reusable code with functions, parameters, return values, and scope.",
+      "difficulty": "intermediate",
+      "duration": "40 min",
+      "icon": "fa-cube",
+      "topics": ["Function Definition", "Parameters", "Return Values", "Scope", "Lambda Functions"],
+      "objectives": [
+        "Understand what functions are and why they're important",
+        "Learn to create functions with parameters and return values",
+        "Master variable scope and local vs global variables",
+        "Practice writing clean, reusable code"
+      ],
+      "content": [
+        {
+          "title": "Creating Functions",
+          "content": [
+            {
+              "type": "text",
+              "text": "Functions are reusable blocks of code that perform specific tasks. They help organize your code and avoid repetition."
+            },
+            {
+              "type": "code",
+              "code": "# Basic function definition\ndef greet():\n    print(\"Hello, World!\")\n\n# Calling the function\ngreet()\ngreet()  # Can be called multiple times\n\n# Function with parameters\ndef greet_person(name):\n    print(f\"Hello, {name}!\")\n\ngreet_person(\"Alice\")\ngreet_person(\"Bob\")\n\n# Function with multiple parameters\ndef introduce(name, age, city):\n    print(f\"Hi, I'm {name}. I'm {age} years old and I live in {city}.\")\n\nintroduce(\"Charlie\", 25, \"New York\")"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Create a function that calculates the area of a rectangle:",
+              "starter_code": "# Define a function called calculate_area\n# It should take length and width as parameters\n# And print the area (length * width)\n\ndef calculate_area():\n    # Your code here\n    pass\n\n# Test your function\ncalculate_area(5, 3)\ncalculate_area(10, 7)"
+            }
+          ]
+        },
+        {
+          "title": "Return Values",
+          "content": [
+            {
+              "type": "text",
+              "text": "Functions can return values using the 'return' statement. This allows you to use the result of a function in other parts of your code."
+            },
+            {
+              "type": "code",
+              "code": "# Function that returns a value\ndef add_numbers(a, b):\n    return a + b\n\n# Using the returned value\nresult = add_numbers(5, 3)\nprint(f\"5 + 3 = {result}\")\n\n# You can use the function directly in expressions\ntotal = add_numbers(10, 20) + add_numbers(5, 15)\nprint(f\"Total: {total}\")\n\n# Function with multiple return statements\ndef get_grade(score):\n    if score >= 90:\n        return \"A\"\n    elif score >= 80:\n        return \"B\"\n    elif score >= 70:\n        return \"C\"\n    elif score >= 60:\n        return \"D\"\n    else:\n        return \"F\"\n\nmy_grade = get_grade(85)\nprint(f\"Your grade: {my_grade}\")"
+            },
+            {
+              "type": "note",
+              "text": "If a function doesn't have a return statement, it returns None by default."
+            }
+          ]
+        },
+        {
+          "title": "Function Parameters and Arguments",
+          "content": [
+            {
+              "type": "text",
+              "text": "Functions can have default parameters, accept variable numbers of arguments, and use keyword arguments."
+            },
+            {
+              "type": "code",
+              "code": "# Default parameters\ndef greet_with_title(name, title=\"Mr.\"):\n    return f\"Hello, {title} {name}\"\n\nprint(greet_with_title(\"Smith\"))  # Uses default title\nprint(greet_with_title(\"Johnson\", \"Dr.\"))  # Custom title\n\n# Keyword arguments\ndef create_profile(name, age, city=\"Unknown\", job=\"Student\"):\n    return f\"{name}, {age} years old, works as {job} in {city}\"\n\n# Different ways to call the function\nprint(create_profile(\"Alice\", 25))\nprint(create_profile(\"Bob\", 30, job=\"Engineer\"))\nprint(create_profile(name=\"Charlie\", city=\"Boston\", age=28, job=\"Teacher\"))\n\n# Variable number of arguments\ndef calculate_average(*numbers):\n    if not numbers:\n        return 0\n    return sum(numbers) / len(numbers)\n\nprint(f\"Average of 2, 4, 6: {calculate_average(2, 4, 6)}\")\nprint(f\"Average of 10, 20, 30, 40, 50: {calculate_average(10, 20, 30, 40, 50)}\")"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Create a function that formats a person's information:",
+              "starter_code": "# Create a function called format_person\n# Parameters: name, age, city (default=\"Unknown\"), occupation (default=\"Student\")\n# Return a formatted string with all the information\n\ndef format_person():\n    # Your code here\n    pass\n\n# Test cases\nprint(format_person(\"Alice\", 25))\nprint(format_person(\"Bob\", 30, \"Seattle\"))\nprint(format_person(\"Charlie\", 28, \"Boston\", \"Engineer\"))"
+            }
+          ]
+        },
+        {
+          "title": "Variable Scope",
+          "content": [
+            {
+              "type": "text",
+              "text": "Scope determines where variables can be accessed in your code. Python has local scope (inside functions) and global scope (outside functions)."
+            },
+            {
+              "type": "code",
+              "code": "# Global variable\nglobal_var = \"I'm global\"\n\ndef demonstrate_scope():\n    # Local variable\n    local_var = \"I'm local\"\n    print(f\"Inside function: {global_var}\")  # Can access global\n    print(f\"Inside function: {local_var}\")   # Can access local\n\ndemonstrate_scope()\nprint(f\"Outside function: {global_var}\")  # Can access global\n# print(local_var)  # This would cause an error!\n\n# Modifying global variables inside functions\ncounter = 0\n\ndef increment_counter():\n    global counter  # Declare that we want to modify the global variable\n    counter += 1\n    print(f\"Counter inside function: {counter}\")\n\nprint(f\"Initial counter: {counter}\")\nincrement_counter()\nprint(f\"Counter after function: {counter}\")\n\n# Function parameters create local variables\ndef multiply_by_two(number):\n    number = number * 2  # This creates a new local variable\n    return number\n\noriginal = 5\nresult = multiply_by_two(original)\nprint(f\"Original: {original}, Result: {result}\")"
+            },
+            {
+              "type": "warning",
+              "text": "Avoid using global variables when possible. It's better to pass values as parameters and return results."
+            }
+          ]
+        }
+      ],
+      "quick_reference": [
+        {
+          "syntax": "def function_name():",
+          "description": "Define a function"
+        },
+        {
+          "syntax": "return value",
+          "description": "Return a value from function"
+        },
+        {
+          "syntax": "def func(param=default):",
+          "description": "Default parameter"
+        },
+        {
+          "syntax": "global variable_name",
+          "description": "Access global variable"
+        }
+      ],
+      "quiz": {
+        "title": "Functions Quiz",
+        "description": "Test your knowledge of Python functions and scope",
+        "time_limit": "15",
+        "questions": [
+          {
+            "type": "multiple_choice",
+            "question": "What will this function return?\n\ndef mystery(x, y=10):\n    return x + y\n\nresult = mystery(5)",
+            "options": [
+              "5",
+              "10",
+              "15",
+              "Error"
+            ],
+            "correct": 2,
+            "explanation": "The function adds x (5) and y (default value 10), returning 15."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "What happens when you try to access a local variable outside its function?",
+            "options": [
+              "It returns None",
+              "It returns the last value",
+              "It causes a NameError",
+              "It returns 0"
+            ],
+            "correct": 2,
+            "explanation": "Local variables are only accessible within their function. Trying to access them outside causes a NameError."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "How do you modify a global variable inside a function?",
+            "options": [
+              "Just assign a new value",
+              "Use the 'global' keyword",
+              "Use the 'nonlocal' keyword",
+              "Return the new value"
+            ],
+            "correct": 1,
+            "explanation": "You need to use the 'global' keyword to tell Python you want to modify the global variable, not create a new local one."
+          }
+        ]
+      }
+    },
+    {
+      "id": "data-structures",
+      "title": "Lists & Dictionaries",
+      "description": "Master Python's most important data structures: lists for ordered data and dictionaries for key-value pairs.",
+      "difficulty": "intermediate",
+      "duration": "45 min",
+      "icon": "fa-list",
+      "topics": ["Lists", "List Methods", "Dictionaries", "Dictionary Methods", "Nested Structures"],
+      "objectives": [
+        "Understand when to use lists vs dictionaries",
+        "Master list operations and methods",
+        "Learn dictionary operations and methods",
+        "Practice working with nested data structures"
+      ],
+      "content": [
+        {
+          "title": "Working with Lists",
+          "content": [
+            {
+              "type": "text",
+              "text": "Lists are ordered collections that can hold multiple items. They're mutable, meaning you can change them after creation."
+            },
+            {
+              "type": "code",
+              "code": "# Creating lists\nfruits = [\"apple\", \"banana\", \"orange\"]\nnumbers = [1, 2, 3, 4, 5]\nmixed = [\"hello\", 42, True, 3.14]\nempty_list = []\n\n# Accessing list elements (indexing starts at 0)\nprint(f\"First fruit: {fruits[0]}\")\nprint(f\"Last fruit: {fruits[-1]}\")  # Negative indexing from the end\n\n# List slicing\nprint(f\"First two fruits: {fruits[0:2]}\")\nprint(f\"All except first: {fruits[1:]}\")\nprint(f\"Last two: {fruits[-2:]}\")\n\n# Modifying lists\nfruits[1] = \"grape\"  # Change an element\nprint(f\"Modified fruits: {fruits}\")\n\n# List length\nprint(f\"Number of fruits: {len(fruits)}\")"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Create a list of your favorite colors and practice accessing elements:",
+              "starter_code": "# Create a list with at least 5 colors\ncolors = []\n\n# Print the first color\nprint(f\"First color: {}\")\n\n# Print the last color using negative indexing\nprint(f\"Last color: {}\")\n\n# Print the middle colors (exclude first and last)\nprint(f\"Middle colors: {}\")\n\n# Change the second color to \"purple\"\n\n# Print the updated list\nprint(f\"Updated colors: {colors}\")"
+            }
+          ]
+        },
+        {
+          "title": "List Methods and Operations",
+          "content": [
+            {
+              "type": "text",
+              "text": "Lists have many built-in methods that make them powerful for managing collections of data."
+            },
+            {
+              "type": "code",
+              "code": "# Starting with a list\nshopping_list = [\"milk\", \"bread\", \"eggs\"]\n\n# Adding items\nshopping_list.append(\"cheese\")  # Add to the end\nshopping_list.insert(1, \"butter\")  # Insert at specific position\nprint(f\"After adding: {shopping_list}\")\n\n# Removing items\nshopping_list.remove(\"bread\")  # Remove by value\nremoved_item = shopping_list.pop()  # Remove and return last item\nprint(f\"Removed: {removed_item}\")\nprint(f\"After removing: {shopping_list}\")\n\n# Other useful methods\nnumbers = [3, 1, 4, 1, 5, 9, 2, 6]\nprint(f\"Original numbers: {numbers}\")\n\nnumbers.sort()  # Sort in place\nprint(f\"Sorted: {numbers}\")\n\nnumbers.reverse()  # Reverse in place\nprint(f\"Reversed: {numbers}\")\n\n# List operations\nlist1 = [1, 2, 3]\nlist2 = [4, 5, 6]\ncombined = list1 + list2  # Concatenation\nprint(f\"Combined: {combined}\")\n\n# Check if item exists\nif \"milk\" in shopping_list:\n    print(\"Don't forget the milk!\")\n\n# Count occurrences\ntest_list = [1, 2, 3, 2, 2, 4]\nprint(f\"Number of 2s: {test_list.count(2)}\")"
+            }
+          ]
+        },
+        {
+          "title": "Understanding Dictionaries",
+          "content": [
+            {
+              "type": "text",
+              "text": "Dictionaries store data as key-value pairs. They're perfect for representing real-world objects and relationships."
+            },
+            {
+              "type": "code",
+              "code": "# Creating dictionaries\nperson = {\n    \"name\": \"Alice\",\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"is_student\": False\n}\n\n# Alternative way to create dictionaries\ncar = dict(make=\"Toyota\", model=\"Camry\", year=2020)\n\n# Accessing values\nprint(f\"Name: {person['name']}\")\nprint(f\"Age: {person.get('age')}\")\nprint(f\"Country: {person.get('country', 'Not specified')}\")  # Default value\n\n# Modifying dictionaries\nperson[\"age\"] = 31  # Update existing key\nperson[\"job\"] = \"Engineer\"  # Add new key\nprint(f\"Updated person: {person}\")\n\n# Removing items\ndel person[\"is_student\"]  # Delete a key-value pair\nremoved_value = person.pop(\"city\")  # Remove and return value\nprint(f\"Removed city: {removed_value}\")\nprint(f\"After removal: {person}\")"
+            },
+            {
+              "type": "exercise",
+              "instruction": "Create a dictionary to represent a book and practice operations:",
+              "starter_code": "# Create a dictionary for a book with: title, author, pages, published_year\nbook = {\n    # Add your key-value pairs here\n}\n\n# Print the book title\nprint(f\"Title: {}\")\n\n# Add a new key 'genre' with value 'Fiction'\n\n# Update the number of pages\n\n# Print all keys in the dictionary\nprint(f\"Book properties: {}\")\n\n# Print all values\nprint(f\"Book details: {}\")"
+            }
+          ]
+        },
+        {
+          "title": "Dictionary Methods and Iteration",
+          "content": [
+            {
+              "type": "text",
+              "text": "Dictionaries have powerful methods for accessing and manipulating data, and you can iterate through them in various ways."
+            },
+            {
+              "type": "code",
+              "code": "# Sample dictionary\nstudent_grades = {\n    \"Alice\": 92,\n    \"Bob\": 87,\n    \"Charlie\": 94,\n    \"Diana\": 89\n}\n\n# Dictionary methods\nprint(f\"All keys: {list(student_grades.keys())}\")\nprint(f\"All values: {list(student_grades.values())}\")\nprint(f\"All items: {list(student_grades.items())}\")\n\n# Iterating through dictionaries\nprint(\"\\nIterating through keys:\")\nfor name in student_grades:\n    print(f\"{name}: {student_grades[name]}\")\n\nprint(\"\\nIterating through key-value pairs:\")\nfor name, grade in student_grades.items():\n    print(f\"{name} scored {grade}\")\n\nprint(\"\\nIterating through values only:\")\nfor grade in student_grades.values():\n    print(f\"Grade: {grade}\")\n\n# Dictionary comprehension (advanced)\nhigh_performers = {name: grade for name, grade in student_grades.items() if grade >= 90}\nprint(f\"\\nHigh performers: {high_performers}\")\n\n# Merging dictionaries (Python 3.9+)\ndefault_settings = {\"theme\": \"light\", \"language\": \"en\"}\nuser_settings = {\"theme\": \"dark\", \"notifications\": True}\nfinal_settings = default_settings | user_settings\nprint(f\"\\nFinal settings: {final_settings}\")"
+            }
+          ]
+        },
+        {
+          "title": "Nested Data Structures",
+          "content": [
+            {
+              "type": "text",
+              "text": "You can combine lists and dictionaries to create complex data structures that represent real-world data."
+            },
+            {
+              "type": "code",
+              "code": "# List of dictionaries (common pattern)\nstudents = [\n    {\"name\": \"Alice\", \"age\": 20, \"grades\": [85, 92, 78]},\n    {\"name\": \"Bob\", \"age\": 19, \"grades\": [90, 87, 94]},\n    {\"name\": \"Charlie\", \"age\": 21, \"grades\": [78, 85, 82]}\n]\n\n# Accessing nested data\nprint(f\"First student: {students[0]['name']}\")\nprint(f\"Bob's first grade: {students[1]['grades'][0]}\")\n\n# Dictionary with lists and nested dictionaries\ncompany = {\n    \"name\": \"Tech Corp\",\n    \"employees\": [\n        {\"name\": \"Alice\", \"department\": \"Engineering\"},\n        {\"name\": \"Bob\", \"department\": \"Marketing\"}\n    ],\n    \"locations\": {\n        \"headquarters\": \"New York\",\n        \"branches\": [\"San Francisco\", \"London\", \"Tokyo\"]\n    }\n}\n\n# Working with nested structures\nprint(f\"\\nCompany: {company['name']}\")\nprint(f\"First employee: {company['employees'][0]['name']}\")\nprint(f\"Headquarters: {company['locations']['headquarters']}\")\nprint(f\"First branch: {company['locations']['branches'][0]}\")\n\n# Adding to nested structures\ncompany['employees'].append({\"name\": \"Diana\", \"department\": \"Sales\"})\ncompany['locations']['branches'].append(\"Berlin\")\n\nprint(f\"\\nUpdated employees: {len(company['employees'])}\")\nprint(f\"Updated branches: {company['locations']['branches']}\")"
+            },
+            {
+              "type": "note",
+              "text": "Nested data structures are very common when working with APIs, JSON data, and complex applications."
+            }
+          ]
+        }
+      ],
+      "quick_reference": [
+        {
+          "syntax": "list[index]",
+          "description": "Access list element"
+        },
+        {
+          "syntax": "list.append(item)",
+          "description": "Add item to end of list"
+        },
+        {
+          "syntax": "dict[key]",
+          "description": "Access dictionary value"
+        },
+        {
+          "syntax": "dict.get(key, default)",
+          "description": "Safe dictionary access"
+        },
+        {
+          "syntax": "for key, value in dict.items():",
+          "description": "Iterate through dictionary"
+        }
+      ],
+      "quiz": {
+        "title": "Data Structures Quiz",
+        "description": "Test your knowledge of lists and dictionaries",
+        "time_limit": "12",
+        "questions": [
+          {
+            "type": "multiple_choice",
+            "question": "What will this code output?\n\nmy_list = [1, 2, 3, 4, 5]\nprint(my_list[-2])",
+            "options": [
+              "2",
+              "3",
+              "4",
+              "5"
+            ],
+            "correct": 2,
+            "explanation": "Negative indexing starts from the end. -1 is the last element (5), so -2 is the second-to-last element (4)."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "Which method would you use to safely get a value from a dictionary that might not have the key?",
+            "options": [
+              "dict[key]",
+              "dict.get(key)",
+              "dict.find(key)",
+              "dict.access(key)"
+            ],
+            "correct": 1,
+            "explanation": "dict.get(key) returns None if the key doesn't exist, while dict[key] would raise a KeyError."
+          },
+          {
+            "type": "multiple_choice",
+            "question": "How do you add an item to the end of a list?",
+            "options": [
+              "list.add(item)",
+              "list.insert(item)",
+              "list.append(item)",
+              "list.push(item)"
+            ],
+            "correct": 2,
+            "explanation": "The append() method adds an item to the end of a list."
+          }
+        ]
+      }
+    }
+  ]
+}
