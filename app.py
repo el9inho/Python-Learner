@@ -36,3 +36,4 @@ with app.app_context():
 # Import routes after app creation
 import routes
 import routes_analytics
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///mydatabase.db")
