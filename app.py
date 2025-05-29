@@ -4,6 +4,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 # Configure logging for debug mode
 logging.basicConfig(level=logging.DEBUG)
@@ -13,26 +17,23 @@ class Base(DeclarativeBase):
 
 db = SQLAlchemy(model_class=Base)
 
-# Create the app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key-change-in-production")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# Configure the database
+# Configure the database with fallback
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///mydatabase.db")
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True,
 }
 
-# Initialize the app with the extension
 db.init_app(app)
 
 with app.app_context():
-    # Import models to ensure tables are created
     import models
     db.create_all()
 
-# Import routes after app creation
 import routes
 import routes_analytics
+
